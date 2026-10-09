@@ -1,0 +1,54 @@
+﻿@using System.Text.Json
+@using Convertify.Services
+@model ConversionViewModel
+@{
+    ViewData["Title"] = "Inicio";
+    var formatsJson = JsonSerializer.Serialize(ConversionCatalog.OutputsByExtension);
+    var accept = string.Join(",", ConversionCatalog.OutputsByExtension.Keys);
+}
+
+<section class="card">
+    <h1 class="title">Convierte tus archivos fácilmente</h1>
+    <p class="subtitle">Selecciona un archivo, elige el formato y descarga el resultado.</p>
+
+    @if (TempData["Error"] is string tempError)
+    {
+        <div class="alert alert-error">@tempError</div>
+    }
+
+    <div asp-validation-summary="All" class="alert alert-error"></div>
+    <div id="clientError" class="alert alert-error" hidden></div>
+
+    <form id="convertForm" asp-controller="Conversion" asp-action="Convert" method="post"
+          enctype="multipart/form-data" data-formats="@formatsJson" data-max-mb="100">
+
+        <div id="dropZone" class="dropzone" tabindex="0" role="button"
+             aria-label="Arrastra tu archivo o haz clic para seleccionarlo">
+            <div class="dropzone-icon">📁</div>
+            <p class="dropzone-text">Arrastra tu archivo aquí</p>
+            <span class="btn btn-secondary">Seleccionar archivo</span>
+        </div>
+
+        <input type="file" id="fileInput" name="File" accept="@accept" hidden />
+
+        <div id="fileInfo" class="file-info" hidden>
+            <span class="label">Archivo:</span>
+            <strong id="fileName"></strong>
+            <span id="fileSize" class="muted"></span>
+        </div>
+
+        <div class="field">
+            <label for="outputFormat" class="label">Convertir a:</label>
+            <select id="outputFormat" name="OutputFormat" disabled>
+                <option value="">Selecciona un archivo primero</option>
+            </select>
+        </div>
+
+        <button type="submit" id="convertButton" class="btn btn-primary btn-block" disabled>Convertir</button>
+
+        <div id="progress" class="progress" hidden>
+            <div class="spinner"></div>
+            <span>Subiendo y convirtiendo... esto puede tardar unos momentos.</span>
+        </div>
+    </form>
+</section>

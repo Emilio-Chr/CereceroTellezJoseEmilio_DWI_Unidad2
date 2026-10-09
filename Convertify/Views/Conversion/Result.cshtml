@@ -1,0 +1,17 @@
+﻿@model ConversionViewModel
+@{
+    ViewData["Title"] = "Resultado";
+}
+
+<section class="card">
+    <div class="alert alert-success">✓ Conversión completada</div>
+
+    <p class="subtitle">Tu archivo <strong>@Model.DownloadName</strong> está listo.</p>
+
+    <a class="btn btn-primary btn-block" asp-controller="Conversion" asp-action="Download"
+       asp-route-id="@Model.DownloadId" asp-route-name="@Model.DownloadName">Descargar</a>
+
+    <a class="btn btn-link" asp-controller="Home" asp-action="Index">Convertir otro archivo</a>
+
+    <p class="muted small">El archivo se elimina automáticamente después de la descarga.</p>
+</section>

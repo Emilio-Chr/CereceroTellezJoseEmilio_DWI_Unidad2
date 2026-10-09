@@ -1,0 +1,11 @@
+﻿.vs/
+**/.vs/
+bin/
+obj/
+**/bin/
+**/obj/
+*.user
+*.suo
+.vscode/
+Storage/Uploads/*
+Storage/Converted/*
